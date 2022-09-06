@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import './App.css'
 
+import SearchContainer from './components/SearchContainer'
+import SearchField from './components/SearchField'
+import DataList from './components/DataList'
 import data from './data'
 
 const App = () => {
@@ -10,10 +14,12 @@ const App = () => {
   
   const handleSearch = (string) => {
     setSearchString(string)
+    
     // Filter dataset
     setDataToShow(
-      data.filter(item => item.toLowerCase().includes(string.toLowerCase()))
+      data.filter(dataItem => dataItem.toLowerCase().includes(string.toLowerCase()))
     )
+
     // building new url
     const newUrl = window.location.origin + window.location.pathname + (string!== '' ? `?search=${string}` : '')
     
@@ -31,12 +37,10 @@ const App = () => {
   
   return (
     <div className="App">
-      <input value={searchString} onChange={(event) => handleSearch(event.target.value)} type="search" placeholder="Search..." />
-      <ul>
-        {dataToShow.map(d =>
-          <li key={d}>{d}</li>
-        )}
-      </ul>
+      <SearchContainer>
+        <SearchField searchString={searchString} handleSearch={handleSearch} />
+        <DataList data={dataToShow} />
+      </SearchContainer>
     </div>
   )
 }
