@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
 
-function App() {
+import data from './data'
+
+const App = () => {
+  const [searchString, setSearchString] = useState('')
+  const [dataToShow, setDataToShow] = useState(data)
+  
+  const handleSearch = (event) => {
+    setSearchString(event.target.value)
+    setDataToShow(
+      data.filter(item => item.toLowerCase().includes(event.target.value.toLowerCase()))
+    )
+    // console.log(event.target.value)
+  }
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input value={searchString} onChange={handleSearch} type="search" placeholder="Search..." />
+      <ul>
+        {dataToShow.map(d =>
+          <li key={d}>{d}</li>
+        )}
+      </ul>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
